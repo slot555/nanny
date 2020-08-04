@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nanny_client_kanban" model="ir.ui.view">
+	    <field name="name">nanny_client.kanban</field>
+	    <field name="model">nanny.client</field>
+        <field name="arch" type="xml">
+            <kanban class="mk_file_kanban_view">
+                <field name="id" />
+                <field name="name" />
+                <field name="parent_id"/>
+                <field name="child_ids"/>
+                <field name="count_child_ids"/>
+                <field name="babies_count"/>
+                <field name="color" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_image">
+                                    <div class="o_kanban_image_wrapper">
+                                        <img src='/nanny/static/src/img/client_green.png' alt="File" width="68" height="68"
+                                             attrs="{'invisible': ['|', ('kanban_state', '=', 'normal'), ('kanban_state', '=', 'blocked')]}"/>
+                                        <img src='/nanny/static/src/img/client_grey.png' alt="File" width="68" height="68"
+                                             attrs="{'invisible': ['|', ('kanban_state', '=', 'done'), ('kanban_state', '=', 'blocked')]}"/>
+                                        <img src='/nanny/static/src/img/client_red.png' alt="File" width="68" height="68"
+                                             attrs="{'invisible': ['|', ('kanban_state', '=', 'normal'), ('kanban_state', '=', 'done')]}"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_details">
+                                    <div class="o_kanban_details_wrapper">
+
+                                        <div class="o_kanban_record_title o_text_overflow">
+                                            <field name="name"/>
+                                        </div>
+                                        <div class="o_kanban_record_body">
+                                            <span>Кол-во детей/привед.: <field name="babies_count"/>/<field name="count_child_ids"/></span><br/>
+                                            <span>Месяцев осталось: <field name="babies_end_month_count"/></span>
+
+                                        </div>
+                                        <div class="o_kanban_record_bottom">
+                                            <div class="oe_kanban_bottom_left"/>
+                                            <div class="oe_kanban_bottom_right">
+                                                <field name="kanban_state" widget="state_selection"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+     <record id="view_nanny_client_form" model="ir.ui.view">
+        <field name="name">nannyd_client.form</field>
+        <field name="model">nanny.client</field>
+        <field name="arch" type="xml">
+            <form string="Clients"> <!--  js_class="directory_form" -->
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div>
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <label for="parent_id" class="oe_edit_only"/>
+                        <h4>
+                            <label for="parent_id" class="oe_read_only" attrs="{'invisible':[('parent_id','=','')]}"/>
+                            <field name="parent_id" placeholder="Выберите кто привел:" attrs="{'invisible':[('parent_id','=','')]}"/>
+                        </h4>
+                    </div>
+                    <group name="main_info">
+                        <group>
+                            <field name="add_date"/>
+                            <field name="phone_num" class="oe_inline"/>
+                            <field name="babies_count" />
+                        </group>
+                        <group>
+                            <field name="kanban_state" widget="state_selection"/>
+                            <field name="fop"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+<!--                    <div>-->
+<!--                        <label for="fop"/>-->
+<!--                        <field name="fop"/>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label for="add_date"/>-->
+<!--                        <field name="add_date"/>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label for="phone_num"/>-->
+<!--                        <field name="phone_num" class="oe_inline"/>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label for="babies_count"/>-->
+<!--                        <field name="babies_count" />-->
+<!--                    </div>-->
+                    <group name="babies">
+                        <field name="babies">
+                            <tree string="Clients">
+                                <field name="name" />
+                                <field name="birthday" string="Дата рождения"/>
+                                <field name="end_date" string="Дата окончания услуг"/>
+                                <field name="month_till_end_date"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <div>
+                        <div>
+                            <label for="count_child_ids"/>
+                            <field name="count_child_ids"/>
+                        </div>
+                        <div>
+                        </div>
+                        <group name="child_ids">
+                            <field name="child_ids" attrs="{'invisible':[('count_child_ids','=','0')]}"/>
+                        </group>
+                        <div>
+                            <field name="client_data" readonly="1">
+                                <tree string="Client_data">
+                                    <field name="client" />
+                                    <field name="def_data_year"/>
+                                    <field name="def_data_month"/>
+                                    <field name="def_sum"/>
+                                    <field name="payments_sum"/>
+                                    <field name="return_sum"/>
+                                </tree>
+                            </field>
+
+                        </div>
+                    </div>
+                    <group name="notes">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nanny_client_tree" model="ir.ui.view">
+        <field name="name">nanny_client.tree</field>
+        <field name="model">nanny.client</field>
+        <field name="arch" type="xml">
+            <tree string="Clients" default_order="name,add_date,babies_end_month_count">
+                <field name="name" />
+                <field name="phone_num" string="Телефон"/>
+                <field name="add_date" string="Дата добавления"/>
+                <field name="babies_count" string="Кол-во детей" />
+                <field name="count_child_ids" string="Кол-во приведенных" />
+                <field name="babies_end_month_count" string="Месяцев осталось"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nanny_client_search" model="ir.ui.view">
+       <field name="name">nanny_client.search</field>
+       <field name="model">nanny.client</field>
+       <field name="arch" type="xml">
+           <search string="Clients">
+               <field name="name"/>
+               <field name="parent_id"/>
+               <field name="babies_end_month_count"/>
+<!--               <field name="status_less_then_2_month"/>-->
+<!--               <filter name="month" string="Осталось меньше 2 месяцев" domain="[('status_less_then_2_month', '=',True)]"/>-->
+<!--               <group expand="0" string="Group By">-->
+<!--                   <filter name="group_by_directory" string="Directory" context="{'group_by': 'directory'}"/>-->
+<!--               </group>-->
+               <searchpanel>
+                   <field name="parent_id" icon="fa-users"/>
+<!--                   <field name="contract" select="multi" domain="[('project_name','=',project_name)]" icon="fa-edit"/>-->
+<!--                   <field name="directory" widget="many2one_directory" icon="fa-folder"-->
+<!--                          />-->
+<!--                         select="multi" domain="[('project_name','=',project_name)]" -->
+                </searchpanel>
+           </search>
+       </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_view_nanny_client">
+        <field name="name">Client</field>
+        <field name="res_model">nanny.client</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_no_content_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="main_menu_nanny" name="Нянечки"/>
+
+    <menuitem id="menu_nanny_base" name="Базовые данные" sequence="10"
+              parent="main_menu_nanny"/>
+
+    <menuitem id="menu_nanny_client" name="Клиенты" sequence="5"
+              parent="menu_nanny_base" action="action_view_nanny_client"/>
+
+</odoo>

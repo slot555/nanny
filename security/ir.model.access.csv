@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_nanny_client,access_nanny_client,model_nanny_client,base.group_user,1,1,1,1
+access_nanny_baby,access_nanny_baby,model_nanny_baby,base.group_user,1,1,1,1
+access_nanny_client_data,access_nanny_client_data,model_nanny_client_data,base.group_user,1,1,1,1
+access_nanny_def_data,access_nanny_def_data,model_nanny_def_data,base.group_user,1,1,1,1
+access_nanny_fop,access_nanny_fop,model_nanny_fop,base.group_user,1,1,1,1
+access_nanny_data_import,access_nanny_data_import,model_nanny_data_import,base.group_user,1,1,1,1

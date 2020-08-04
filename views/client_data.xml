@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="view_nanny_client_data_form" model="ir.ui.view">
+        <field name="name">nanny_client_data.form</field>
+        <field name="model">nanny.client_data</field>
+        <field name="arch" type="xml">
+            <form string="Сводная информация по клиентам и датам">
+                <sheet>
+                    <group name="data">
+                        <field name="client" class="oe_read_only"/><!--  class="oe_read_only" -->
+                        <field name="def_data_year" class="oe_read_only"/>
+                        <field name="def_data_month" class="oe_read_only"/>
+                        <field name="payments_sum"/>
+                        <field name="return_sum"/>
+                        <field name="calc_data_babies_count_by_date"/>
+                        <field name="calc_data_count_childs_by_date"/>
+                        <field name="calc_data_babies_count_childs_by_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nanny_client_data_tree" model="ir.ui.view">
+        <field name="name">nanny_client_data.tree</field>
+        <field name="model">nanny.client_data</field>
+        <field name="arch" type="xml">
+            <tree string="Сводная информация по клиентам и датам" create="false" editable="bottom">
+                <field name="client" readonly="1"/>
+                <field name="def_data_year" readonly="1"/>
+                <field name="def_data_month" readonly="1"/>
+                <field name="def_sum"/>
+                <field name="payments_sum"/>
+                <field name="return_sum"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nanny_client_data_search" model="ir.ui.view">
+       <field name="name">nanny.client_data.search</field>
+       <field name="model">nanny.client_data</field>
+       <field name="arch" type="xml">
+           <search string="Сводная информация по клиентам и датам">
+               <field name="client"/>
+               <field name="def_data_year"/>
+               <field name="def_data_month"/>
+               <field name="payments_sum"/>
+               <field name="return_sum"/>
+               <group expand="0" string="Group By">
+                   <filter string="Клиент" name="client" domain="[]" context="{'group_by': 'client'}"/>
+                   <filter string="Год" name="def_data_year" domain="[]" context="{'group_by': 'def_data_year'}"/>
+                   <filter string="Месяц" name="def_data_month" domain="[]" context="{'group_by': 'def_data_month'}"/>
+               </group>
+           </search>
+       </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_view_nanny_client_data_summary_info">
+        <field name="name">Сводная информация по клиентам и датам</field>
+        <field name="res_model">nanny.client_data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_no_content_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="main_menu_nanny_summary_info" name="Сводная информация" sequence="20"
+              parent="main_menu_nanny"/>
+
+    <menuitem id="menu_nanny_client_data_summary_info" name="По клиентам и датам" sequence="6"
+              parent="main_menu_nanny_summary_info" action="action_view_nanny_client_data_summary_info"/>
+
+</data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record model="ir.actions.act_window" id="action_view_nanny_fop">
+        <field name="name">Таблица ФОП</field>
+        <field name="res_model">nanny.fop</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_no_content_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_nanny_fop" name="Таблица ФОП" sequence="6"
+        parent="main_menu_nanny_def_data" action="action_view_nanny_fop"/>
+
+</data>
+</odoo>

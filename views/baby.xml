@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_nanny_baby_form" model="ir.ui.view">
+        <field name="name">nanny_baby.form</field>
+        <field name="model">nanny.baby</field>
+        <field name="arch" type="xml">
+            <form string="Babies"> <!--  js_class="directory_form" -->
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div>
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <label for="birthday"/>
+                        <h4>
+                            <field name="birthday"/>
+                        </h4>
+                        <label for="end_date" class="oe_read_only"/>
+                        <field name="end_date" class="oe_read_only"/>
+                        <label for="mother" class="oe_read_only"/>
+                        <field name="mother" class="oe_read_only"/>
+                        <label for="month_till_end_date" class="oe_read_only"/>
+                        <field name="month_till_end_date" class="oe_read_only"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nanny_baby_tree" model="ir.ui.view">
+        <field name="name">nanny_baby.tree</field>
+        <field name="model">nanny.baby</field>
+        <field name="arch" type="xml">
+            <tree string="Babies">
+                <field name="name" />
+                <field name="birthday" string="Дата рождения"/>
+                <field name="end_date" string="Дата окончания услуг"/>
+                <field name="mother"/>
+                <field name="month_till_end_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nanny_baby_search" model="ir.ui.view">
+       <field name="name">nanny_baby.search</field>
+       <field name="model">nanny.baby</field>
+       <field name="arch" type="xml">
+           <search string="Baby">
+               <field name="name"/>
+               <field name="birthday"/>
+               <field name="mother"/>
+               <field name="end_date"/>
+               <field name="month_till_end_date"/>
+               <searchpanel>
+                   <field name="mother" icon="fa-users"/>
+                </searchpanel>
+           </search>
+       </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_view_nanny_baby">
+        <field name="name">Baby</field>
+        <field name="res_model">nanny.baby</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_no_content_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_nanny_baby" name="Дети" sequence="10"
+              parent="menu_nanny_base" action="action_view_nanny_baby"/>
+
+</odoo>

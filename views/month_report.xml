@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="nanny_clients_month_statistic"
+        string="month_report"
+        model="nanny.month_report"
+        report_type="qweb-pdf"
+        name="nanny.client_month_report"
+        file="nanny.client_month_report"
+        print_report_name="'Отчет_%sг_%sмес' % (object.def_data_year, (object.def_data_month).replace('/', ''))"
+    />
+
+    <template id="client_month_report">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div class="col-md-6">
+                        <h2>Год:
+                            <t t-esc="o.def_data_year"/>
+                            Месяц:
+                            <t t-esc="o.def_data_month"/>
+                        </h2>
+                        <table class="table table-condensed table-bordered" style="width:100%;"><!--  -->
+                            <tr>
+                                <th>№</th>
+                                <th>ФИО</th>
+                                <th>ФОП</th>
+                                <th>Кол-во детей</th>
+                                <th>Кол-во детей<br/>у приведенных</th>
+                                <th>Сумма выплат</th>
+                                <th>Возврат</th>
+                            </tr>
+                            <t t-set="count" t-value="1" />
+                            <t t-foreach="o.client_datas" t-as="data">
+                                <tr>
+                                    <td><t t-esc="count"/></td>
+                                    <t t-set="count" t-value="count+1"/>
+                                    <td><t t-esc="data.client.name"/></td>
+                                    <td><t t-esc="data.client.fop.name"/></td>
+                                    <td><t t-esc="data.client.babies_count"/></td>
+                                    <td><t t-esc="data.client.babies_count_child_ids"/></td>
+                                    <td><t t-esc="data.payments_sum"/></td>
+                                    <td><t t-esc="data.return_sum"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <record model="ir.ui.view" id="nanny_month_report_form_view">
+        <field name="name">nanny.month_report.form</field>
+        <field name="model">nanny.month_report</field>
+        <field name="arch" type="xml">
+            <form string="Month report">
+                <group>
+                    <field name="def_data_year" widget="selection"/>
+                    <field name="def_data_month" widget="selection"/>
+                    <field name="client_datas" widget="one2many_list"
+                           domain="[('client_datas.def_data_year', '=', def_data_year)]"/>
+                </group>
+                <footer>
+                    <button name="print_report" type="object"
+                            string="Print" class="oe_highlight"/>
+                    or
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nanny_month_report" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="res_model">nanny.month_report</field>
+        <field name="view_mode">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new File.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="nanny_month_report" name="Месячный отчет" sequence="40" parent="main_menu_nanny_summary_info" action="action_nanny_month_report"/>
+</odoo>
